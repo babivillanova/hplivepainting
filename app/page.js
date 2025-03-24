@@ -8,8 +8,34 @@ const videos = [
     alt: "frame",
     style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
   },
+  
   {
-    src: "/frame--d3.mp4",
+    src: "/1.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  },
+  {
+    src: "/2.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  },
+  {
+    src: "/3.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  },
+  {
+    src: "/4.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  },
+  {
+    src: "/5.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  },
+  {
+    src: "/6.mp4",
     alt: "frame",
     style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
   }
@@ -54,14 +80,19 @@ export default function Home() {
       console.log('Setting video source to:', videos[currentIndex].src);
       setVideoSrc(videos[currentIndex].src);
       
-      // Increment index after a small delay to ensure video source is updated
+      // Set random index for next video
       setTimeout(() => {
-        setCurrentIndex((prevIndex) => {
-          const nextIndex = (prevIndex + 1) % videos.length;
-          console.log('Incrementing index to:', nextIndex);
+        setCurrentIndex(() => {
+          // Generate random index excluding current index
+          let nextIndex;
+          do {
+            nextIndex = Math.floor(Math.random() * videos.length);
+          } while (nextIndex === currentIndex);
+          
+          console.log('Setting random index to:', nextIndex);
           return nextIndex;
         });
-      }, 100);
+      }, 1000);
     }
   }, [showVideo]);
 
