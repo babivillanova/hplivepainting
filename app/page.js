@@ -21,7 +21,13 @@ export default function Home() {
   const [videoSrc, setVideoSrc] = useState(videos[0].src);
   const videoRef = useRef(null);
 
-
+  // Add effect to handle video source changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [videoSrc]);
 
   useEffect(() => {
     let timeoutId;
@@ -79,6 +85,7 @@ export default function Home() {
            
             {/* Playing video */}
             <video
+              key={videoSrc}
               ref={videoRef}
               autoPlay
               muted
