@@ -5,8 +5,8 @@ import { useState, useEffect, useRef } from "react";
 export default function Home() {
   const [showVideo, setShowVideo] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [videoSrc, setVideoSrc] = useState(videos[0].src);
   const videoRef = useRef(null);
-  const firstFrameRef = useRef(null);
 
   const videos = [
     {
@@ -45,17 +45,10 @@ export default function Home() {
     };
   }, [showVideo]);
 
-  // Update video sources when showVideo changes
-  useEffect(() => {
-    if (showVideo && videoRef.current) {
-      videoRef.current.src = videos[currentIndex].src;
-      firstFrameRef.current.src = videos[currentIndex].src;
-    }
-  }, [showVideo]);
-
-  // Update index only when video starts playing
+  // Update video source when showVideo changes
   useEffect(() => {
     if (showVideo) {
+      setVideoSrc(videos[currentIndex].src);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
     }
   }, [showVideo]);
@@ -75,9 +68,10 @@ export default function Home() {
         <div className="relative " style={{ paddingTop: '66.67%' }}>
           {/* Video layer */}
           <div className="absolute inset-0 flex items-center justify-center ml-5">
-            {/* Playing video */}
+            {/* Static frame */}
             <img src="/frame-initial.jpg" alt="frame" className="absolute inset-0 w-[98%] h-full object-cover transition-opacity duration-500" />
            
+            {/* Playing video */}
             <video
               ref={videoRef}
               autoPlay
@@ -87,7 +81,7 @@ export default function Home() {
               onEnded={handleVideoEnd}
               style={{ pointerEvents: 'none' }}
             >
-              <source src={videos[currentIndex].src} type="video/mp4" />
+              <source src={videoSrc} type="video/mp4" />
             </video>
           </div>
           
