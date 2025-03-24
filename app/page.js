@@ -2,29 +2,26 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
+const videos = [
+  {
+    src: "/frame--d0.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  },
+  {
+    src: "/frame--d3.mp4",
+    alt: "frame",
+    style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+  }
+]
+
 export default function Home() {
   const [showVideo, setShowVideo] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [videoSrc, setVideoSrc] = useState(videos[0].src);
   const videoRef = useRef(null);
 
-  const videos = [
-    {
-      src: "/frame--d0.mp4",
-      alt: "frame",
-      style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
-    },
-    {
-      src: "/frame--d3.mp4",
-      alt: "frame",
-      style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
-    },
-    // {
-    //   src: "/frame--d6.mp4",
-    //   alt: "frame",
-    //   style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
-    // }
-  ]
+
 
   useEffect(() => {
     let timeoutId;
@@ -35,7 +32,7 @@ export default function Home() {
         if (videoRef.current) {
           videoRef.current.play();
         }
-      }, 10000);
+      }, 1000);
     }
 
     return () => {
@@ -48,8 +45,17 @@ export default function Home() {
   // Update video source when showVideo changes
   useEffect(() => {
     if (showVideo) {
+      console.log('Setting video source to:', videos[currentIndex].src);
       setVideoSrc(videos[currentIndex].src);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
+      
+      // Increment index after a small delay to ensure video source is updated
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % videos.length;
+          console.log('Incrementing index to:', nextIndex);
+          return nextIndex;
+        });
+      }, 100);
     }
   }, [showVideo]);
 
