@@ -76,15 +76,7 @@ export default function Home() {
           {/* Video layer */}
           <div className="absolute inset-0 flex items-center justify-center ml-5">
             {/* Playing video */}
-            <video
-              ref={firstFrameRef}
-              muted
-              playsInline
-              className={`absolute inset-0 w-[98%] h-full object-cover transition-opacity duration-500 `}
-              style={{ pointerEvents: 'none' }}
-            >
-              <source src={videos[currentIndex].src} type="video/mp4" />
-            </video>
+            <img src="/frame-initial.jpg" alt="frame" className="absolute inset-0 w-[98%] h-full object-cover transition-opacity duration-500" />
            
             <video
               ref={videoRef}
