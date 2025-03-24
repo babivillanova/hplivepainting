@@ -4,8 +4,27 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const [showVideo, setShowVideo] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const videoRef = useRef(null);
   const firstFrameRef = useRef(null);
+
+  const videos = [
+    {
+      src: "/frame--d0.mp4",
+      alt: "frame",
+      style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+    },
+    {
+      src: "/frame--d3.mp4",
+      alt: "frame",
+      style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+    },
+    // {
+    //   src: "/frame--d6.mp4",
+    //   alt: "frame",
+    //   style: { transform: 'scaleY(1.1)', maxHeight: '100vh' }
+    // }
+  ]
 
   useEffect(() => {
     let timeoutId;
@@ -24,6 +43,21 @@ export default function Home() {
         clearTimeout(timeoutId);
       }
     };
+  }, [showVideo]);
+
+  // Update video sources when showVideo changes
+  useEffect(() => {
+    if (showVideo && videoRef.current) {
+      videoRef.current.src = videos[currentIndex].src;
+      firstFrameRef.current.src = videos[currentIndex].src;
+    }
+  }, [showVideo]);
+
+  // Update index only when video starts playing
+  useEffect(() => {
+    if (showVideo) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
+    }
   }, [showVideo]);
 
   const handleVideoEnd = () => {
@@ -49,7 +83,7 @@ export default function Home() {
               className={`absolute inset-0 w-[98%] h-full object-cover transition-opacity duration-500 `}
               style={{ pointerEvents: 'none' }}
             >
-              <source src="/frame--d0.mp4" type="video/mp4" />
+              <source src={videos[currentIndex].src} type="video/mp4" />
             </video>
            
             <video
@@ -61,11 +95,8 @@ export default function Home() {
               onEnded={handleVideoEnd}
               style={{ pointerEvents: 'none' }}
             >
-              <source src="/frame--d0.mp4" type="video/mp4" />
+              <source src={videos[currentIndex].src} type="video/mp4" />
             </video>
-            
-            {/* First frame video */}
-      
           </div>
           
           {/* Frame overlay */}
