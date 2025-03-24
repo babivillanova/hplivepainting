@@ -4,6 +4,7 @@ export default function Home() {
   return (
    <div className="w-full h-screen relative">
     <div className="w-full h-full z-10">
+      Sou uma TV velha
       <Image src="/frame2.png" alt="frame" fill className="object-cover"/>
     </div>
     <div className="absolute inset-0 flex items-center justify-center">
